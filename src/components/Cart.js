@@ -10,7 +10,7 @@ export default function Cart() {
     
     let TotalAmount = 0 ;
     cart.forEach(element => {
-        TotalAmount += element.total;
+        TotalAmount += parseFloat(element.total);
     });
 
 
@@ -44,8 +44,11 @@ export default function Cart() {
         dispatch(action);
     };
 
-    return <div>
-        My Cart
+    return <div style={{margin:"50px"}}>
+        <div style={{display:"flex",justifyContent:"space-between"}}>
+            <div><b> My Cart </b></div>
+            <div><b>TOTAL AMOUNT: </b> {TotalAmount}</div>
+        </div>
         <div className="product-list">
             
             {cart.map(x=>{
@@ -53,10 +56,10 @@ export default function Cart() {
                     <img src={x.image} className="product-image"/>
                     <div>{x.title}</div>
                     <div><b>Price:</b> {x.price}</div>
-                    <div> 
-                        <b> Quantity: </b> {x.qty} 
-                        <button onClick={()=>addQty(x.id)}> + </button> 
+                    <div> <b> Quantity: </b>
                         <button onClick={()=>remQty(x.id)}> - </button> 
+                        &nbsp; {x.qty} &nbsp;
+                        <button onClick={()=>addQty(x.id)}> + </button> 
                     </div>
                     <div><button onClick={()=>deleteItem(x.id)}> Delete </button></div>
                     <div> 
@@ -66,6 +69,5 @@ export default function Cart() {
             })}
         </div>
     
-        <div><b>TOTAL AMOUNT: </b> {TotalAmount}</div>
     </div>;
 }

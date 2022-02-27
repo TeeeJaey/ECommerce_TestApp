@@ -10,9 +10,21 @@ function reducer(state=initState, action)
             const newState = {...state};
             newState.cart = [...state.cart]
             const item =action.payload.item;
-            item.qty = 1;
-            item.total = item.qty * item.price;
-            newState.cart.push(item);
+
+            
+            const existing_item = newState.cart.find(x=>x.id==item.id);
+
+            if(existing_item) {
+                existing_item.qty++;
+                existing_item.total = existing_item.qty * existing_item.price;
+                existing_item.total = existing_item.total.toFixed(2);
+            }
+            else {
+                item.qty = 1;
+                item.total = item.qty * item.price;
+                item.total = item.total.toFixed(2);
+                newState.cart.push(item);
+            }
             
             return newState;
         }
@@ -24,6 +36,7 @@ function reducer(state=initState, action)
             const item = newState.cart.find(x=>x.id==action.payload.id);
             item.qty++;
             item.total = item.qty * item.price;
+            item.total = item.total.toFixed(2);
             return newState;
         }
 
@@ -39,6 +52,7 @@ function reducer(state=initState, action)
             else {
                 item.qty--;
                 item.total = item.qty * item.price;
+                item.total = item.total.toFixed(2);
             }
             return newState;
         }
